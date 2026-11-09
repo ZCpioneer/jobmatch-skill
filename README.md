@@ -2,7 +2,7 @@
 
 把一份简历变成 5 个值得投的真实岗位——带匹配理由和原始链接。
 
-[官网](https://zcpionner.cloud/skill?ref=github) · [安装说明](https://zcpionner.cloud/install.md) · [免费注册](https://zcpionner.cloud/account/login?mode=signup&ref=github)
+[官网](https://zcpionner.cloud/skill?ref=github) · [SkillHub](https://skillhub.cn/skills/user_9757edcf/job-match) · [安装说明](https://zcpionner.cloud/install.md) · [免费注册](https://zcpionner.cloud/account/login?mode=signup&ref=github)
 
 > 本仓库只含 Skill 客户端；服务端、岗位数据、部署配置与密钥不开源。
 
