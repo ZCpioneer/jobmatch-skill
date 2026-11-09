@@ -136,16 +136,39 @@ def _print_human(data: dict) -> None:
         print(f"   {m.get('reason', '')}")
 
 
-def _print_jobs(data: dict) -> None:
+def _list_place(job: dict, requested_city: str = "") -> str:
+    """Show the requested city when the posting covers it.
+
+    A posting can be open in several cities (`cities`), while `city` is only
+    the primary one. Showing the primary city made a 杭州 search look like a
+    深圳/珠海 result; prefer the requested city and say how many are open.
+    """
+    cities = job.get("cities") or ([job.get("city")] if job.get("city") else [])
+    cities = [str(c).strip() for c in cities if str(c).strip()]
+    if not cities:
+        return ""
+    requested = (requested_city or "").strip()
+    if requested:
+        for city in cities:
+            if requested in city or city in requested:
+                if len(cities) > 1:
+                    return f"{city}（{len(cities)} 城可选）"
+                return city
+    if len(cities) > 1:
+        return f"{cities[0]}（{len(cities)} 城可选：{'、'.join(cities[:3])}）"
+    return cities[0]
+
+
+def _print_jobs(data: dict, requested_city: str = "") -> None:
     jobs = data.get("jobs") or []
     dataset = data.get("dataset") or {}
     updated = (dataset.get("updated_at") or "")[:10] or "未知"
     print(f"共 {len(jobs)} 个岗位（数据更新：{updated}，每日同步；搜索免费）：")
     for i, job in enumerate(jobs, 1):
         company = job.get("company_name") or job.get("company") or ""
-        city = job.get("city") or job.get("location_raw") or ""
+        place = _list_place(job, requested_city)
         posted = (job.get("posted_at") or "")[:10]
-        print(f"{i}. {company}｜{job.get('title', '')}｜{city}｜{posted}")
+        print(f"{i}. {company}｜{job.get('title', '')}｜{place}｜{posted}")
         print(f"   {job.get('url', '')}")
     if not jobs:
         print("没有找到岗位；换一个更短的关键词或城市再试。")
@@ -228,7 +251,7 @@ def main() -> int:
             if args.json:
                 print(json.dumps(data, ensure_ascii=False, indent=2))
             else:
-                _print_jobs(data)
+                _print_jobs(data, args.city)
             return 0
 
         if args.file:

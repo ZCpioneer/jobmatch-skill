@@ -19,7 +19,7 @@
 1. 下载并解压到客户端的 skills 目录。以 Claude Code 为例：
 
    ```bash
-   unzip job-match-skill-v0.5.zip -d ~/.claude/skills/
+   unzip job-match-skill-v0.5.1.zip -d ~/.claude/skills/
    ```
 
    解压后应得到 `~/.claude/skills/job-match/SKILL.md`。
@@ -92,10 +92,11 @@ python3 ~/.claude/skills/job-match/scripts/match_jobs.py --me
 
 | 版本 | 日期 | 说明 |
 |---|---|---|
+| 0.5.1 | 2026-11-09 | `--list` 只搜职位名/公司名；多城市显示“杭州（N 城可选）”；服务端搜索按相关性排序 |
 | 0.5.0 | 2026-11-09 | 新增 `--list` 免费岗位搜索、`--quick` 0.1 credit 快速匹配；402 深链到账单页 |
 | 0.4.0 | 2026-11-08 | API 改为 `https://zcpionner.cloud/api`；免费 5 次 / 402 语义；包内不含价格 |
 
-Release 资产与官网 `job-match-skill-v0.5.zip` 相同；仓库 README 可能比包内 README 更详细。
+Release 资产为 `job-match-skill-v0.5.1.zip`（含 LICENSE）；官网 `/skill` 当前仍指向 v0.5.0，下一次站点发版会同步到 v0.5.1。
 
 ## License
 
