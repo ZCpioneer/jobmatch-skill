@@ -96,7 +96,7 @@ python3 ~/.claude/skills/job-match/scripts/match_jobs.py --me
 | 0.5.0 | 2026-11-09 | 新增 `--list` 免费岗位搜索、`--quick` 0.1 credit 快速匹配；402 深链到账单页 |
 | 0.4.0 | 2026-11-08 | API 改为 `https://zcpionner.cloud/api`；免费 5 次 / 402 语义；包内不含价格 |
 
-Release 资产为 `job-match-skill-v0.5.1.zip`（含 LICENSE）；官网 `/skill` 当前仍指向 v0.5.0，下一次站点发版会同步到 v0.5.1。
+Release 资产为 `job-match-skill-v0.5.1.zip`（含 LICENSE）；官网 `/skill` 已同步 v0.5.1。
 
 ## License
 
