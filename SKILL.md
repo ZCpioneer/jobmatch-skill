@@ -1,6 +1,6 @@
 ---
 name: job-match
-description: 上传 PDF/DOCX/TXT/Markdown 简历做岗位匹配（完整 1 credit/次、快速 0.1 credit/次），或免费按关键词/城市搜索每日更新的岗位池（不需要简历）。免费 5 次完整匹配/月。用户说“帮我找匹配的岗位”“这份简历适合投什么”“杭州有哪些后端岗位”“跑一下岗位匹配”时使用。
+description: 上传 PDF/DOCX/TXT/Markdown 简历做岗位匹配（完整 0.1 credit/次、快速 0.01 credit/次），或免费按关键词/城市搜索每日更新的岗位池（不需要简历）。免费 5 次完整匹配/月。用户说“帮我找匹配的岗位”“这份简历适合投什么”“杭州有哪些后端岗位”“跑一下岗位匹配”时使用。
 ---
 
 # JobMatch · 简历岗位匹配
@@ -25,7 +25,7 @@ description: 上传 PDF/DOCX/TXT/Markdown 简历做岗位匹配（完整 1 credi
 - `limit`：可选；匹配默认 5（最大 10），`--list` 默认 5（最大 20）；
 - `--list`：免费岗位搜索，不需要简历；**只搜职位名/公司名，不扫 JD 正文**；配合 `--q`（关键词/公司）和 `--city`；没有结果时换更短的关键词，不要反复扩大同义词；
 
-- `--quick`：快速匹配，只走向量召回，0.1 credit/次，不占用免费额度；
+- `--quick`：更便宜的快速匹配，0.01 credit/次，不占用免费额度；仍走 v2 过滤与排序，只是没有报告/LLM 阶段；
 - `--me`：只查额度，不做匹配。
 
 ## 账号与 Key（每个用户自己的 Key）
@@ -33,7 +33,7 @@ description: 上传 PDF/DOCX/TXT/Markdown 简历做岗位匹配（完整 1 credi
 1. 没有 Key 时，引导用户到 `https://zcpionner.cloud/account/login?mode=signup` 用邮箱注册；
 2. 登录后在 `https://zcpionner.cloud/account/` 创建一个个人 Key（形如 `jm_live_...`，只显示一次）；
 3. 把 Key 放进环境变量 `JOBMATCH_API_KEY`，或在客户端密钥管理里保存；**不要写进 Skill 包、脚本或聊天记录**；
-4. 免费 **5 次完整匹配/月**、每分钟 6 次；快速匹配 **0.1 credit/次**，完整匹配 **1 credit/次**；免费岗位搜索不扣额度；
+4. 免费 **5 次完整匹配/月**、每分钟 6 次；快速匹配 **0.01 credit/次**，完整匹配 **0.1 credit/次**；免费岗位搜索不扣额度；
 5. 查额度：运行 `python3 scripts/match_jobs.py --me`（或 `GET /api/v1/me`）。
 
 ### 额度
@@ -42,9 +42,9 @@ description: 上传 PDF/DOCX/TXT/Markdown 简历做岗位匹配（完整 1 credi
 |---|---|
 | 免费岗位搜索 | `--list`，不扣额度；每日更新，返回最新 20 条/页 |
 | 免费完整匹配 | 5 次/月；每次 Top 5 + 链接 |
-| 快速匹配 | 0.1 credit/次；向量召回，最快，适合反复筛 |
-| 完整匹配 | 1 credit/次（免费额度用完后） |
-| 深度报告 | 9 credits，在 JobMatch 网站生成（不在 Skill 内支付） |
+| 快速匹配 | 0.01 credit/次；向量召回，最快，适合反复筛 |
+| 完整匹配 | 0.1 credit/次（免费额度用完后） |
+| 深度报告 | 0.9 credit，在 JobMatch 网站生成（不在 Skill 内支付） |
 
 额度用完时，告诉用户到 https://zcpionner.cloud/account/billing?sku=credits_10 获取 credits；**具体价格以网站为准，Skill 内不展示价格、不收款、不代付**。
 
@@ -54,8 +54,8 @@ description: 上传 PDF/DOCX/TXT/Markdown 简历做岗位匹配（完整 1 credi
 
 1. 先判断用户要什么：
    - 没有简历、只想看岗位 → `--list`（免费，不用上传简历）；
-   - 有简历、想快速筛 → `--quick`（0.1 credit，最快）；
-   - 有简历、要完整 Top 5 → 默认完整匹配（1 credit，免费额度内不扣）。
+   - 有简历、想快速筛 → `--quick`（0.01 credit，最快）；
+   - 有简历、要完整 Top 5 → 默认完整匹配（0.1 credit，免费额度内不扣）。
 2. 确认用户简历路径；不要读取/回显简历正文，不要上传到其他服务。
 3. 运行：
 
@@ -63,10 +63,10 @@ description: 上传 PDF/DOCX/TXT/Markdown 简历做岗位匹配（完整 1 credi
 # 免费岗位搜索（不需要简历）
 python3 scripts/match_jobs.py --list --q "后端" --city "杭州" --limit 10
 
-# 快速匹配（0.1 credit）
+# 快速匹配（0.01 credit）
 python3 scripts/match_jobs.py --file "/path/to/resume.pdf" --quick --city "杭州"
 
-# 完整匹配（免费 5 次/月，之后 1 credit）
+# 完整匹配（免费 5 次/月，之后 0.1 credit）
 python3 scripts/match_jobs.py --file "/path/to/resume.pdf" --city "杭州" --limit 5
 ```
 
@@ -77,7 +77,7 @@ python3 scripts/match_jobs.py --file "/path/to/resume.pdf" --city "杭州" --lim
 ## 输出格式
 
 ```text
-找到 5 个匹配岗位（快速匹配，耗时 320 ms，本次 0.1 credit）：
+找到 5 个匹配岗位（快速匹配，耗时 320 ms，本次 0.01 credit）：
 1. 字节跳动｜后端研发工程师｜杭州｜0.83
    https://jobs.bytedance.com/...
    向量相似度 0.81；技能命中 java / mysql / redis；城市匹配（杭州）
@@ -107,6 +107,6 @@ python3 scripts/match_jobs.py --file "/path/to/resume.pdf" --city "杭州" --lim
 
 - 本 Skill 不含 API Key、云厂商 AK/SK、cookie；`ARK_API_KEY` / `DEEPSEEK_API_KEY` 只在服务器。
 - 用户 Key 从环境变量 `JOBMATCH_API_KEY` 读取，不写进 Skill 目录、不打印、不落日志。
-- 简历只用于本次匹配；服务器无状态，不保存简历。
+- 简历只用于本次匹配；服务器不保存原始文件，脱敏解析保留 30 天，用户可在「我的记录」删除。
 - 不引导用户离开当前平台去第三方；只指向 JobMatch 自己的账号/额度页。
 - 不要把简历正文、手机号、邮箱写进日志或最终回答。

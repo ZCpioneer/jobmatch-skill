@@ -96,9 +96,9 @@ def _print_me(data: dict) -> None:
     print(f"免费匹配：{used} / {limit} 次（剩余 {remaining}）")
     print(f"Credit 余额：{data.get('credit_balance', 0)}")
     print(
-        f"完整匹配：{data.get('match_cost', 1)} credit；"
-        f"快速匹配：{data.get('quick_match_cost', 0.1)} credit；"
-        f"报告：{data.get('report_cost', 9)} credits"
+        f"完整匹配：{data.get('match_cost', 0.1)} credit；"
+        f"快速匹配：{data.get('quick_match_cost', 0.01)} credit；"
+        f"报告：{data.get('report_cost', 0.9)} credits"
     )
     packs = data.get("packs") or []
     if packs:
@@ -215,7 +215,7 @@ def main() -> int:
     source.add_argument("--text", help="resume text instead of a file")
     source.add_argument("--me", action="store_true", help="show free/credit balance and exit")
     source.add_argument("--list", action="store_true", help="search the job pool (no resume)")
-    parser.add_argument("--quick", action="store_true", help="vector-only fast match (0.1 credit)")
+    parser.add_argument("--quick", action="store_true", help="fast match (0.01 credit; same filters, no report stage)")
     parser.add_argument("--q", default="", help="keyword/company for --list")
     parser.add_argument("--city", default="")
     parser.add_argument("--limit", type=int, default=5)

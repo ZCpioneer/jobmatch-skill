@@ -11,7 +11,7 @@
 - 输入：PDF / DOCX / TXT / Markdown 简历，或直接给文本。
 - 输出：Top 5 岗位，含公司、职位、城市、匹配理由、原始 JD 链接。
 - 没有简历时：`--list` 按关键词 / 城市免费搜岗位。
-- 数据：2,300+ 条公开招聘岗位，6 家公司，每日更新（以官网实时数字为准）。
+- 数据：8,000+ 条公开招聘岗位，20+ 家公司，每日更新（以官网实时数字为准）。
 - 匹配分数是语义接近度，不是录用概率；不承诺面试或 offer。
 
 ## 安装
@@ -19,7 +19,7 @@
 1. 下载并解压到客户端的 skills 目录。以 Claude Code 为例：
 
    ```bash
-   unzip job-match-skill-v0.5.1.zip -d ~/.claude/skills/
+   unzip job-match-skill-v0.5.2.zip -d ~/.claude/skills/
    ```
 
    解压后应得到 `~/.claude/skills/job-match/SKILL.md`。
@@ -41,10 +41,10 @@
 ## 使用
 
 ```bash
-# 有简历：完整匹配（免费 5 次/月，之后 1 credit/次）
+# 有简历：完整匹配（免费 5 次/月，之后 0.1 credit/次）
 python3 ~/.claude/skills/job-match/scripts/match_jobs.py --file ~/resume.pdf --city 杭州
 
-# 有简历：快速匹配（0.1 credit/次，不占免费额度）
+# 有简历：快速匹配（0.01 credit/次，不占免费额度）
 python3 ~/.claude/skills/job-match/scripts/match_jobs.py --file ~/resume.pdf --quick --city 杭州
 
 # 没有简历：免费搜岗位
@@ -58,21 +58,21 @@ python3 ~/.claude/skills/job-match/scripts/match_jobs.py --me
 
 ## 免费额度
 
-- 免费 5 次完整匹配/月；快速匹配 0.1 credit/次；完整匹配 1 credit/次。
-- 深度报告 9 credits，在网站上生成。
+- 免费 5 次完整匹配/月；快速匹配 0.01 credit/次；完整匹配 0.1 credit/次。
+- 深度报告 0.9 credit，在网站上生成。
 - 额度不足时到 <https://zcpionner.cloud/account/billing> 获取 credits；**具体价格以官网为准，本仓库不展示价格、不收款**。
 
 ## 隐私与数据
 
 - 简历原文不落库；请求结束即丢弃。
-- 免费匹配不保存；付费场景保留脱敏文本与解析结果 30 天，可删除；报告保留 30 天。
+- 免费和付费匹配都保存脱敏文本与解析结果 30 天，可删除；报告保留 30 天；原始文件不落库。
 - 只有邮箱、Key 哈希、用量、订单和上述期限内脱敏内容会被保存。
 - Key 只存哈希，可随时在账号页撤销。
 - 不要把真实简历、手机号、邮箱、订单号或 Key 提交到 issue / PR。
 
 ## 数据口径
 
-- 当前 2,300+ 条岗位 / 6 家公司；每日 04:00 更新。
+- 当前 8,000+ 条岗位 / 20+ 家公司（以官网实时数字为准）；每日 04:00 更新。
 - 岗位来自公开招聘页面；每个结果都带原始链接，可回源核对。
 - 数字会随数据池变化，以官网为准；不要在二次传播中写死旧数字。
 
@@ -92,11 +92,12 @@ python3 ~/.claude/skills/job-match/scripts/match_jobs.py --me
 
 | 版本 | 日期 | 说明 |
 |---|---|---|
+| 0.5.2 | 2026-11-21 | 价格口径对齐 v4（完整 0.1 / 快速 0.01 / 报告 0.9 credit）；修正“快速匹配只走向量”的过时描述；免费匹配也保存脱敏解析 30 天 |
 | 0.5.1 | 2026-11-09 | `--list` 只搜职位名/公司名；多城市显示“杭州（N 城可选）”；服务端搜索按相关性排序 |
 | 0.5.0 | 2026-11-09 | 新增 `--list` 免费岗位搜索、`--quick` 0.1 credit 快速匹配；402 深链到账单页 |
 | 0.4.0 | 2026-11-08 | API 改为 `https://zcpionner.cloud/api`；免费 5 次 / 402 语义；包内不含价格 |
 
-Release 资产为 `job-match-skill-v0.5.1.zip`（含 LICENSE）；官网 `/skill` 已同步 v0.5.1。
+Release 资产为 `job-match-skill-v0.5.2.zip`（含 LICENSE）；官网 `/skill` 已同步 v0.5.2。
 
 ## License
 
